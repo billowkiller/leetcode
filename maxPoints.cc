@@ -17,6 +17,10 @@
  * =====================================================================================
  */
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
 /**
  * Definition for a point.
  */
@@ -31,6 +35,27 @@
 class Solution {
 public:
     int maxPoints(vector<Point> &points) {
-        
+        int max = 0;
+        for (int i=0; i<points.size();i++)
+        {
+            for (int j=0; j<points.size();j++)
+            {
+               if() 
+            }
+        }
     }
 };
+
+int main()
+{
+    vector<Point> points;
+    points.push_back(Point(1,0));
+    points.push_back(Point(2,0));
+    points.push_back(Point(3,0));
+    points.push_back(Point(1,1));
+    points.push_back(Point(1,1));
+    points.push_back(Point(2,1));
+
+    Solution sol;
+    cout << sol.maxPoints(points) <<endl;
+}
