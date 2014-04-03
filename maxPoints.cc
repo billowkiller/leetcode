@@ -19,6 +19,9 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <cmath>
+#include <float.h>
 
 using namespace std;
 /**
@@ -35,27 +38,49 @@ using namespace std;
 class Solution {
 public:
     int maxPoints(vector<Point> &points) {
+        if(0==points.size())
+            return 0;
         int max = 0;
+        map<float, int> table;
         for (int i=0; i<points.size();i++)
         {
+            int samep = 0;
+            int maxp = 0;
             for (int j=0; j<points.size();j++)
             {
-               if() 
+               if(i!=j)
+               {
+                   if(points[j].x==points[i].x && points[j].y==points[i].y)
+                   { 
+                       samep++;
+                       continue;
+                   }
+
+                   float a = points[j].x==points[i].x?FLT_MAX:
+                       (float)(points[j].y-points[i].y)/(points[j].x-points[i].x);
+
+                   table[a]++; 
+                   maxp = maxp > table[a]? maxp : table[a];
+               }
             }
+            maxp += samep;
+            max = max > maxp? max : maxp;
+           table.clear(); 
         }
+        return max+1;
     }
 };
 
 int main()
 {
-    vector<Point> points;
-    points.push_back(Point(1,0));
-    points.push_back(Point(2,0));
-    points.push_back(Point(3,0));
-    points.push_back(Point(1,1));
-    points.push_back(Point(1,1));
-    points.push_back(Point(2,1));
-
     Solution sol;
+    vector<Point> points;
+    cout << (0==sol.maxPoints(points)) <<endl;
+    points.push_back(Point(1,1));
+    points.push_back(Point(2,2));
+    points.push_back(Point(2,2));
+    points.push_back(Point(1,1));
+
     cout << sol.maxPoints(points) <<endl;
+
 }
