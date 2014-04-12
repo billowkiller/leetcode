@@ -71,6 +71,27 @@ void permute(char *pstr, char *pbegin)
     }
 }
 
+//avoid same num
+//like 000111
+void permute2(char *pstr, char *pbegin)
+{
+    if(*pbegin == '\0')
+        cout << pstr << endl;
+    else{
+        for(char *pch = pbegin; *pch!='\0';)
+        {
+            swap(pch, pbegin);
+            permute(pstr, pbegin+1);
+            swap(pch, pbegin);
+			//find first one that is not the same
+			while(*(++pch)==*pbegin);
+			//find the last one that is not the same
+			while(*pch==*(pch+1))
+				pch++;        
+		}
+    }
+}
+
 void permutation(char *pstr)
 {
     if(pstr == NULL || *pstr=='\0')
@@ -81,8 +102,8 @@ void permutation(char *pstr)
 
 int main()
 {
-    char pstr[] = "abc";
+    char pstr[] = "0011";
     combination(pstr);
-    permutation(pstr);
+    //permutation(pstr);
     return 0;
 }

@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
 
 struct node{
     int val;
@@ -42,16 +43,20 @@ Node* mergeList(Node *list_a, Node* list_b)
         }
         t = t->next;
     }
-    while(list_a){
-        t->next = list_a;
-        list_a = list_a->next;
-        t = t->next;
-    }
-    while(list_b){
-        t->next = list_b;
-        list_b = list_b->next;
-        t = t->next;
-    }
+	if(list_a)
+		t->next = list_a;
+	if(list_b)
+		t->next = list_b;
+//    while(list_a){
+//        t->next = list_a;
+//        list_a = list_a->next;
+//        t = t->next;
+//    }
+//    while(list_b){
+//        t->next = list_b;
+//        list_b = list_b->next;
+//        t = t->next;
+//    }
     t = list->next;
     free(list);
     return t;
@@ -89,7 +94,7 @@ int main(){
 
     printList(list_a);
     printList(list_b);
-    Node * list = mergeList(NULL, NULL);
+    Node * list = mergeList(list_a, list_b);
     printList(list);
     return 0;
 }
