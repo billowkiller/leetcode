@@ -51,6 +51,22 @@ void combination(char *pstr)
     }
 }
 
+//select r numbers from m numbers
+void combinate(int A[], int m, int n, int r)
+{
+    int i, j;
+    for(i=m; i>=n; i--)
+    {
+        A[n-1] = i;
+        if(n>1) combinate(A, i-1, n-1, r);
+        else{
+            for(j=r-1; j>=0; j--)
+                std::cout << A[j];
+            std::cout << std::endl;
+        }
+    }
+}
+
 void swap (char *a, char *b)
 {
     char temp = *a;
@@ -102,8 +118,10 @@ void permutation(char *pstr)
 
 int main()
 {
-    char pstr[] = "0011";
+    char pstr[] = "12345";
     combination(pstr);
-    //permutation(pstr);
+    permutation(pstr);
+    int A[5] = {1, 2, 3, 4, 5};
+    combinate(A, 5, 3, 3);
     return 0;
 }
