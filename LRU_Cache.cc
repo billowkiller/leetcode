@@ -21,6 +21,7 @@ set(key, value) - Set or insert the value if the key is not already present. Whe
 #include <iostream>
 #include <map>
 #include <list>
+using namespace std;
 class LRUCache{
 public:
     LRUCache(int capacity):num(0),max(capacity) {
@@ -33,31 +34,34 @@ public:
             return -1;
         else
         {
-
-            return mit->second;
+			int r = mit->second->second;
+			lru_list.erase(mit->second);
+			lru_list.push_front(make_pair(key, r));
+			cache[key] = lru_list.begin();
+            return r;
         }
     }
     
     void set(int key, int value) {
-        mit = cache.find(key);
-        if(mit != cache.end())
-            mit->second = value;
+		if(get(key) != -1)
+		{
+			mit = cache.find(key);
+            mit->second->second = value;
+		}
         else
         {
-            if(num < capacity)
+            if(num < max)
             {
-                cache[key] = value;
-                lru_list.push_back(make_pair(key, false));
+                lru_list.push_front(make_pair(key, value));
+				cache[key] = lru_list.begin();
                 num++;
             }else{
-                for(lit = lru_list->rbegin(); lit!=lru_list->rend(); lit++)
-                {
-                    if(lit->second==false)
-                    {
-                        cache.erase(cache.find(lit->first));
-
-                    }
-                }
+				mit = cache.find(lru_list.back().first);
+				cache.erase(mit);
+				lru_list.pop_back();
+                lru_list.push_front(make_pair(key, value));
+				cache[key] = lru_list.begin();
+                num++;
             }
 
         }
@@ -66,8 +70,9 @@ public:
 private:
     int num;
     int max;
-    list<pair<int, bool>> lru_list;
-    list<pair<int, bool>>::iterator lit;
-    map<int, int> cache;
-    map<int, int>::iterator mit;
+	typedef list<pair<int, int> > ListType;
+    ListType lru_list;
+	ListType::iterator lit;
+    map<int, ListType::iterator> cache;
+    map<int, ListType::iterator>::iterator mit;
 };
